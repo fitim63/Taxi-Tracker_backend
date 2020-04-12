@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -34,6 +35,8 @@ public class Driver {
     @Column(name = "age")
     private int age;
 
+    @Column(name = "user_uuid")
+    private UUID uuid;
 
     @OneToMany(mappedBy = "driver")
     private List<Order> order;

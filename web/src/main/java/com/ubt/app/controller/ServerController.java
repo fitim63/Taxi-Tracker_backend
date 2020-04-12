@@ -1,7 +1,7 @@
 package com.ubt.app.controller;
-import com.ubt.app.util.CustomErrorType;
+import com.ubt.app.util.Utils;
 import com.ubt.model.Server;
-import com.ubt.service.UserService;
+import com.ubt.service.ServerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,30 +13,30 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @RestController
-public class UserController {
+public class ServerController {
 
-    public static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    public static final Logger logger = LoggerFactory.getLogger(ServerController.class);
 
     @Autowired
-    private UserService userService;
+    private ServerService serverService;
 
 
     // Get all users
-    @GetMapping("/users")
+    @GetMapping("/servers")
     public ResponseEntity<List<Server>> listAllUsers() {
         logger.info("List all servers");
-        List<Server> servers = userService.getAll();
+        List<Server> servers = serverService.getAll();
         if (servers.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(servers, HttpStatus.OK);
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/servers/{id}")
     public ResponseEntity<Server> getUser(@PathVariable ("id") int id) {
         logger.info("Get server with id: "+id);
         // service + repository help web to provide data from database
-        Server server = userService.getById(id);
+        Server server = serverService.getById(id);
         if (server == null) {
             logger.error("Server with id:"+id+" doesnt exist.");
         }
@@ -44,30 +44,30 @@ public class UserController {
     }
 
     // create a server
-    @PostMapping("/createUser")
+    @PostMapping("/createServer")
     public ResponseEntity<?> createUser(@RequestBody Server server, UriComponentsBuilder uriCBuilder) {
         logger.info("Creating Server: {}", server);
 
-        if (userService.getById(server.getId()) != null) {
+        if (serverService.getById(server.getId()) != null) {
             logger.error("Server with id:"+ server.getId()+" already exist.");
-            return new ResponseEntity<>(new CustomErrorType
+            return new ResponseEntity<>(new Utils
                     ("Unable to create server with id:" + server.getId() + " exist."),
                     HttpStatus.CONFLICT);
         }
-        userService.save(server);
+        serverService.save(server);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(uriCBuilder.path("/api/server/{id}").buildAndExpand(server.getId()).toUri());
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-    @PutMapping("/user/{id}")
+    @PutMapping("/server/{id}")
     public ResponseEntity<?> updateUser(@PathVariable("id") int id, @RequestBody Server server) {
         logger.info("Updating Server with id {}", id);
-        Server currentServer = userService.getById(id);
+        Server currentServer = serverService.getById(id);
 
         if (currentServer == null) {
             logger.error("Unable to update. Server with id {} not found.", id);
-            return new ResponseEntity<>(new CustomErrorType("Unable to upate. Server with id " + id + " not found."),
+            return new ResponseEntity<>(new Utils("Unable to upate. Server with id " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }
         currentServer.setFirstName(server.getFirstName());
@@ -75,20 +75,20 @@ public class UserController {
         currentServer.setUsername(server.getUsername());
         currentServer.setPassword(server.getPassword());
         currentServer.setEmail(server.getEmail());
-        userService.save(currentServer);
+        serverService.save(currentServer);
         return new ResponseEntity<>(currentServer, HttpStatus.OK);
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/server/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable("id") int id) {
         logger.info("Fetching & Deleting Server with id {}", id);
-        Server server = userService.getById(id);
+        Server server = serverService.getById(id);
         if (server == null) {
             logger.error("Unable to delete. Server with id {} not found.", id);
-            return new ResponseEntity<>(new CustomErrorType("Unable to delete. Server with id " + id + " not found."),
+            return new ResponseEntity<>(new Utils("Unable to delete. Server with id " + id + " not found."),
                     HttpStatus.NOT_FOUND);
         }
-        userService.deleteById(id);
+        serverService.deleteById(id);
         return new ResponseEntity<Server>(HttpStatus.NO_CONTENT);
     }
 

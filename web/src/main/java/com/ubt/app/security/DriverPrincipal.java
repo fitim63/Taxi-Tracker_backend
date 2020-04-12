@@ -1,24 +1,19 @@
 package com.ubt.app.security;
-import com.ubt.model.Server;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.ubt.model.Driver;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collection;
 import java.util.Collections;
 
-public class UserPrincipal implements UserDetails {
+public class DriverPrincipal implements UserDetails {
 
-    private Server server;
-    public UserPrincipal(Server server) {
+    private Driver driver;
+    public DriverPrincipal(Driver driver) {
         super();
-        this.server = server;
+        this.driver = driver;
     }
-
-    @Autowired
-    PasswordEncoder passwordEncoder;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -27,12 +22,12 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getPassword() {
-        return server.getPassword();
+        return driver.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return server.getUsername();
+        return driver.getUsername();
     }
 
     @Override
