@@ -11,7 +11,7 @@ import java.util.Collections;
 
 public class ServerPrincipal implements UserDetails {
 
-    private Server server;
+    private final Server server;
     public ServerPrincipal(Server server) {
         super();
         this.server = server;

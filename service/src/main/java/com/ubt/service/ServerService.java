@@ -44,6 +44,7 @@ public class ServerService {
         server.setFirstName(u.getFirstName());
         server.setLastName(u.getLastName());
         server.setEmail(u.getEmail());
+        server.setPassword(u.getPassword());
         server.setPassword(passwordEncoder.encode(u.getPassword()));
         server.setUsername(u.getUsername());
         serverRepository.save(server);

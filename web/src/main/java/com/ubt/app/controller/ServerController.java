@@ -20,10 +20,15 @@ public class ServerController {
     @Autowired
     private ServerService serverService;
 
+    @PostMapping("/login")
+    @CrossOrigin("http://localhost:3000/login")
+    public void login() {
+        // Login default by spring security /login endpoint
+    }
 
-    // Get all users
     @GetMapping("/servers")
     public ResponseEntity<List<Server>> listAllUsers() {
+
         logger.info("List all servers");
         List<Server> servers = serverService.getAll();
         if (servers.isEmpty()) {
@@ -43,7 +48,6 @@ public class ServerController {
         return new ResponseEntity<>(server, HttpStatus.OK);
     }
 
-    // create a server
     @PostMapping("/createServer")
     public ResponseEntity<?> createUser(@RequestBody Server server, UriComponentsBuilder uriCBuilder) {
         logger.info("Creating Server: {}", server);
@@ -91,8 +95,4 @@ public class ServerController {
         serverService.deleteById(id);
         return new ResponseEntity<Server>(HttpStatus.NO_CONTENT);
     }
-
-
-
-
 }

@@ -2,7 +2,7 @@ package com.ubt.app.util;
 
 public class Utils {
 
-    private String errorMessage;
+    private final String errorMessage;
 
     public Utils(String errorMessage){
         this.errorMessage = errorMessage;

@@ -15,6 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @RestController
+@CrossOrigin("http://localhost:3000")
 public class DriverController {
 
     public static final Logger logger = LoggerFactory.getLogger(DriverController.class);

@@ -1,7 +1,5 @@
 package com.ubt.app.security;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -14,7 +12,6 @@ import java.io.PrintWriter;
 @Component
 public class AuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
 
-
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
@@ -23,6 +20,7 @@ public class AuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
         PrintWriter writer = response.getWriter();
         writer.println();
     }
+
 
     @Override
     public void afterPropertiesSet() {

@@ -46,6 +46,7 @@ public class DriverService {
         driver.setUuid(u.getUuid());
         driver.setFirstName(u.getFirstName());
         driver.setLastName(u.getLastName());
+        driver.setPassword(u.getPassword());
         driver.setPassword(passwordEncoder.encode(u.getPassword()));
         driver.setUsername(u.getUsername());
         driverRepository.save(driver);

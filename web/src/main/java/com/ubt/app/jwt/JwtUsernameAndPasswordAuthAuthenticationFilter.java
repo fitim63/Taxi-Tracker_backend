@@ -10,7 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,12 +25,10 @@ public class JwtUsernameAndPasswordAuthAuthenticationFilter extends UsernamePass
 
     private final AuthenticationManager authenticationManager;
 
-
     public JwtUsernameAndPasswordAuthAuthenticationFilter(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
     }
 
-    // sending credentials to check if user exist
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
@@ -66,5 +63,7 @@ public class JwtUsernameAndPasswordAuthAuthenticationFilter extends UsernamePass
                 .compact();
 
         response.addHeader("Authorization", "Bearer " + token);
+        response.getWriter().write(token);
+
     }
 }

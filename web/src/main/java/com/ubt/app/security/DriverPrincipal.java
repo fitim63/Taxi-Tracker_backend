@@ -9,7 +9,7 @@ import java.util.Collections;
 
 public class DriverPrincipal implements UserDetails {
 
-    private Driver driver;
+    private final Driver driver;
     public DriverPrincipal(Driver driver) {
         super();
         this.driver = driver;
