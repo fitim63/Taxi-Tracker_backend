@@ -3,6 +3,7 @@ package com.ubt.app.jwt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -62,8 +63,14 @@ public class JwtUsernameAndPasswordAuthAuthenticationFilter extends UsernamePass
                 .signWith(Keys.hmacShaKeyFor(key.getBytes()))
                 .compact();
 
+        String tokenAsJson = new JSONObject()
+                .put("token", token)
+                .toString();
+
+
         response.addHeader("Authorization", "Bearer " + token);
-        response.getWriter().write(token);
+        response.setContentType("application/json");
+        response.getWriter().write(tokenAsJson);
 
     }
 }
