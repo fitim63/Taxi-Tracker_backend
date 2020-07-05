@@ -2,6 +2,7 @@ package com.ubt.app.controller;
 
 import com.ubt.app.util.Utils;
 import com.ubt.model.Driver;
+import com.ubt.model.DriverReport;
 import com.ubt.service.DriverService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @RestController
-@CrossOrigin("http://localhost:3000")
 public class DriverController {
 
     public static final Logger logger = LoggerFactory.getLogger(DriverController.class);
@@ -23,6 +23,15 @@ public class DriverController {
     @Autowired
     private DriverService driverService;
 
+    @GetMapping("/driver-reports")
+    public ResponseEntity<List<DriverReport>> getReports(){
+        logger.info("List all drivers' reports");
+        List<DriverReport> reports = driverService.getAllReports();
+        if (reports.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(reports, HttpStatus.OK);
+    }
 
     // Get all users
     @GetMapping("/drivers")
