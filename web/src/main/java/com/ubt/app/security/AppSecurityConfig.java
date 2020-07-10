@@ -48,7 +48,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(authenticationProvider());
     }
 
@@ -62,7 +62,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(new JwtTokenVerifier(), JwtUsernameAndPasswordAuthAuthenticationFilter.class)
                 .authorizeRequests()
                 .antMatchers("/", "/createServer", "/createDriver").permitAll()
-                .antMatchers("/driver-reports","/servers/**", "/drivers/**").authenticated()
+                .antMatchers( "/driver-reports").authenticated()
                 .and().httpBasic()
                 .authenticationEntryPoint(authenticationEntryPoint);
     }
