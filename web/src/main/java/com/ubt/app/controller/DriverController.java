@@ -52,7 +52,20 @@ public class DriverController {
         if (driver == null) {
             logger.error("driver with id:"+id+" doesnt exist.");
         }
-        return new ResponseEntity<Driver>(driver, HttpStatus.OK);
+        return new ResponseEntity<>(driver, HttpStatus.OK);
+    }
+
+    // Get driver by username
+    @RequestMapping(value = "/drivers/", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<Driver> getDriverByUsername(@RequestParam ("username") String username) {
+        logger.info("Get driver with username: "+username);
+        // service + repository help web to provide data from database
+        Driver driver = driverService.getDriverByUsername(username);
+        if (driver == null) {
+            logger.error("driver with id:"+username+" doesnt exist.");
+        }
+        return new ResponseEntity<>(driver, HttpStatus.OK);
     }
 
     // create a driver
