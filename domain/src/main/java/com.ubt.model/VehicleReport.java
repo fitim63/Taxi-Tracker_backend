@@ -30,5 +30,4 @@ public class VehicleReport {
     @Column(name = "total_fuel_spent")
     private double totalFuelSpentUntilNow;
 
-
 }

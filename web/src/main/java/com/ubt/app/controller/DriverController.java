@@ -3,6 +3,7 @@ package com.ubt.app.controller;
 import com.ubt.app.util.Utils;
 import com.ubt.model.Driver;
 import com.ubt.model.DriverReport;
+import com.ubt.model.VehicleReport;
 import com.ubt.service.DriverService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,9 +25,19 @@ public class DriverController {
     private DriverService driverService;
 
     @GetMapping("/driver-reports")
-    public ResponseEntity<List<DriverReport>> getReports(){
+    public ResponseEntity<List<DriverReport>> getDriverReports(){
         logger.info("List all drivers' reports");
-        List<DriverReport> reports = driverService.getAllReports();
+        List<DriverReport> reports = driverService.getDriverReports();
+        if (reports.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(reports, HttpStatus.OK);
+    }
+
+    @GetMapping("/vehicle-reports")
+    public ResponseEntity<List<VehicleReport>> getVehicleReports(){
+        logger.info("List all vehicle reports");
+        List<VehicleReport> reports = driverService.getVehicleReports();
         if (reports.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
