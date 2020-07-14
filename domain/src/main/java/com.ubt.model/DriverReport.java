@@ -1,10 +1,12 @@
 package com.ubt.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -19,9 +21,11 @@ public class DriverReport {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @JsonFormat(pattern = "dd-MM-yyyy", timezone="Europe/Zagreb")
     @Column(name = "created_at")
     private Date createdAt;
 
+    @JsonFormat(pattern = "dd-MM-yyyy", timezone="Europe/Zagreb")
     @Column(name = "updated_at")
     private Date updatedAt;
 

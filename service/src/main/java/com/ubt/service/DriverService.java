@@ -1,9 +1,10 @@
 package com.ubt.service;
 
+import com.ubt.model.*;
 import com.ubt.model.Driver;
-import com.ubt.model.Driver;
-import com.ubt.model.Server;
+import com.ubt.repository.DriverReportRepository;
 import com.ubt.repository.DriverRepository;
+import com.ubt.repository.VehicleReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,21 @@ public class DriverService {
     private DriverRepository driverRepository;
 
     @Autowired
+    private DriverReportRepository driverReportRepository;
+
+    @Autowired
+    private VehicleReportRepository vehicleReportRepository;
+
+    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    public List<DriverReport> getDriverReports() {
+        return driverReportRepository.findAll();
+    }
+
+    public List<VehicleReport> getVehicleReports() {
+        return vehicleReportRepository.findAll();
+    }
 
     public List<Driver> getAll() {
         return driverRepository.findAll();
@@ -36,7 +51,6 @@ public class DriverService {
     public Driver getByUsername(String username) {
         return driverRepository.findByUsername(username);
     }
-
 
     public void save(Driver u) {
         Driver driver = new Driver();

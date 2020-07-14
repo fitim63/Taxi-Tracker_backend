@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "application.jwt.secretKey",
+      "type": "java.lang.String",
+      "description": "Description for application.jwt.secretKey."
+    },
+    {
+      "name": "application.jwt.tokenPrefix",
+      "type": "java.lang.String",
+      "description": "Description for application.jwt.tokenPrefix."
+    }
+  ] }
