@@ -1,6 +1,5 @@
 package com.ubt.app.controller;
 
-import com.ubt.model.DriverReport;
 import com.ubt.model.DriverWorkSchedule;
 import com.ubt.service.WorkScheduleService;
 import org.slf4j.Logger;

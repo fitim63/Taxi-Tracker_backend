@@ -15,14 +15,14 @@ import com.ubt.service.OrderService;
 import java.util.List;
 
 @RestController
+@RequestMapping("/orders")
 public class OrderController {
     public static final Logger logger = LoggerFactory.getLogger(OrderController.class);
 
     @Autowired
     private OrderService orderService;
 
-    // Get all users
-    @GetMapping("/orders/getAll")
+    @GetMapping("/getAll")
     public ResponseEntity<List<Order>> listAllOrders() {
         logger.info("List all orders");
         List<Order> orders = orderService.getAll();
@@ -32,7 +32,7 @@ public class OrderController {
         return new ResponseEntity<>(orders, HttpStatus.OK);
     }
 
-    @GetMapping("/orders/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Order> getOrder(@PathVariable ("id") int id) {
         logger.info("Get order with id: "+id);
         // service + repository help web to provide data from database
@@ -40,11 +40,10 @@ public class OrderController {
         if (order == null) {
             logger.error("order with id:"+id+" doesnt exist.");
         }
-        return new ResponseEntity<Order>(order, HttpStatus.OK);
+        return new ResponseEntity<>(order, HttpStatus.OK);
     }
 
-    // create a driver
-    @PostMapping("/orders/createOrder")
+    @PostMapping("/createOrder")
     public ResponseEntity<?> createOrder(@RequestBody Order order, UriComponentsBuilder uriCBuilder) {
         logger.info("Creating order: {}", order);
 
@@ -60,7 +59,7 @@ public class OrderController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-    @PutMapping("/orders/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<?> updateOrder(@PathVariable("id") int id, @RequestBody Order order) {
         logger.info("Updating order with id {}", id);
         Order currentOrder = orderService.getById(id);
@@ -76,7 +75,7 @@ public class OrderController {
         return new ResponseEntity<>(currentOrder, HttpStatus.OK);
     }
 
-    @DeleteMapping("/orders/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteOrder(@PathVariable("id") int id) {
         logger.info("Fetching & Deleting order with id {}", id);
         Order order = orderService.getById(id);

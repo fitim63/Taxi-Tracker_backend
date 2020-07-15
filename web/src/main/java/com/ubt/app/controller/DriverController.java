@@ -4,11 +4,14 @@ import com.ubt.app.util.Utils;
 import com.ubt.model.Driver;
 import com.ubt.model.DriverReport;
 import com.ubt.model.VehicleReport;
+import com.ubt.repository.VehicleReportRepository;
+import com.ubt.service.DriverReportService;
 import com.ubt.service.DriverService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +20,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @RestController
+@RequestMapping("/drivers")
 public class DriverController {
 
     public static final Logger logger = LoggerFactory.getLogger(DriverController.class);
@@ -24,28 +28,25 @@ public class DriverController {
     @Autowired
     private DriverService driverService;
 
-    @GetMapping("/drivers/driver-reports")
+    @Autowired
+    private DriverReportService driverReportService;
+
+
+
+    @RequestMapping(value="/driver-reports", method = RequestMethod.GET)
     public ResponseEntity<List<DriverReport>> getDriverReports(){
         logger.info("List all drivers' reports");
-        List<DriverReport> reports = driverService.getDriverReports();
+        List<DriverReport> reports = driverReportService.getAllDriverReports();
         if (reports.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(reports, HttpStatus.OK);
     }
 
-    @GetMapping("/vehicles/vehicle-reports")
-    public ResponseEntity<List<VehicleReport>> getVehicleReports(){
-        logger.info("List all vehicle reports");
-        List<VehicleReport> reports = driverService.getVehicleReports();
-        if (reports.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(reports, HttpStatus.OK);
-    }
+
 
     // Get all users
-    @GetMapping("/drivers/getAll")
+    @RequestMapping(value="/getAll", method = RequestMethod.GET)
     public ResponseEntity<List<Driver>> listAllUsers() {
         logger.info("List all drivers");
         List<Driver> drivers = driverService.getAll();
@@ -77,23 +78,6 @@ public class DriverController {
             logger.error("driver with id:"+username+" doesnt exist.");
         }
         return new ResponseEntity<>(driver, HttpStatus.OK);
-    }
-
-    // create a driver
-    @PostMapping("/drivers/createDriver")
-    public ResponseEntity<?> createUser(@RequestBody Driver driver, UriComponentsBuilder uriCBuilder) {
-        logger.info("Creating driver: {}", driver);
-
-        if (driverService.getById(driver.getId()) != null) {
-            logger.error("driver with id:"+ driver.getId()+" already exist.");
-            return new ResponseEntity<>(new Utils
-                    ("Unable to create driver with id:" + driver.getId() + " exist."),
-                    HttpStatus.CONFLICT);
-        }
-        driverService.save(driver);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setLocation(uriCBuilder.path("/api/driver/{id}").buildAndExpand(driver.getId()).toUri());
-        return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
     @PutMapping("/drivers/{id}")
