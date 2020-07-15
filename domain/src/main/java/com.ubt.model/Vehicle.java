@@ -30,7 +30,7 @@ public class Vehicle {
     @OneToMany
     private List<VehicleDrivingDetails> drivingDetails;
 
-    @ManyToMany
+    @ManyToMany(mappedBy = "vehicles")
     private List<Driver> driver;
 
     @Column(name = "status")

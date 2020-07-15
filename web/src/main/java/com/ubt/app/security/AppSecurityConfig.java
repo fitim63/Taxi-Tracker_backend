@@ -16,12 +16,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.session.SessionManagementFilter;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -61,8 +55,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtUsernameAndPasswordAuthAuthenticationFilter(authenticationManager()))
                 .addFilterAfter(new JwtTokenVerifier(), JwtUsernameAndPasswordAuthAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/", "/createServer", "/createDriver").permitAll()
-                .antMatchers( "/driver-reports", "/vehicle-reports", "/driver-work-schedule").authenticated()
+                .antMatchers("/", "/createDriver", "/servers/create-server").permitAll()
+                .antMatchers( "/drivers", "/vehicles","/vehicles/vehicle-reports", "/driver-work-schedule", "/drivers/driver-reports").authenticated()
                 .and().httpBasic()
                 .authenticationEntryPoint(authenticationEntryPoint);
     }
