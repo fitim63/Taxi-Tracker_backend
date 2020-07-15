@@ -24,7 +24,7 @@ public class DriverController {
     @Autowired
     private DriverService driverService;
 
-    @GetMapping("/driver-reports")
+    @GetMapping("/drivers/driver-reports")
     public ResponseEntity<List<DriverReport>> getDriverReports(){
         logger.info("List all drivers' reports");
         List<DriverReport> reports = driverService.getDriverReports();
@@ -34,7 +34,7 @@ public class DriverController {
         return new ResponseEntity<>(reports, HttpStatus.OK);
     }
 
-    @GetMapping("/vehicle-reports")
+    @GetMapping("/vehicles/vehicle-reports")
     public ResponseEntity<List<VehicleReport>> getVehicleReports(){
         logger.info("List all vehicle reports");
         List<VehicleReport> reports = driverService.getVehicleReports();
@@ -45,7 +45,7 @@ public class DriverController {
     }
 
     // Get all users
-    @GetMapping("/drivers")
+    @GetMapping("/drivers/getAll")
     public ResponseEntity<List<Driver>> listAllUsers() {
         logger.info("List all drivers");
         List<Driver> drivers = driverService.getAll();
@@ -67,7 +67,7 @@ public class DriverController {
     }
 
     // Get driver by username
-    @RequestMapping(value = "/drivers/", method = RequestMethod.GET)
+    @GetMapping("/drivers/getByUsername/")
     @ResponseBody
     public ResponseEntity<Driver> getDriverByUsername(@RequestParam ("username") String username) {
         logger.info("Get driver with username: "+username);
@@ -80,7 +80,7 @@ public class DriverController {
     }
 
     // create a driver
-    @PostMapping("/createDriver")
+    @PostMapping("/drivers/createDriver")
     public ResponseEntity<?> createUser(@RequestBody Driver driver, UriComponentsBuilder uriCBuilder) {
         logger.info("Creating driver: {}", driver);
 
@@ -96,7 +96,7 @@ public class DriverController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-    @PutMapping("/driver/{id}")
+    @PutMapping("/drivers/{id}")
     public ResponseEntity<?> updateUser(@PathVariable("id") int id, @RequestBody Driver driver) {
         logger.info("Updating driver with id {}", id);
         Driver currentDriver = driverService.getById(id);
@@ -114,7 +114,7 @@ public class DriverController {
         return new ResponseEntity<>(currentDriver, HttpStatus.OK);
     }
 
-    @DeleteMapping("/driver/{id}")
+    @DeleteMapping("/drivers/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable("id") int id) {
         logger.info("Fetching & Deleting driver with id {}", id);
         Driver driver = driverService.getById(id);

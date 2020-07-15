@@ -55,9 +55,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilter(new JwtUsernameAndPasswordAuthAuthenticationFilter(authenticationManager()))
                 .addFilterAfter(new JwtTokenVerifier(), JwtUsernameAndPasswordAuthAuthenticationFilter.class)
                 .authorizeRequests()
-                .antMatchers("/", "/createServer", "/createDriver").permitAll()
-                .antMatchers( "/driver-reports", "/vehicle-reports", "/driver-work-schedule").authenticated()
-                .antMatchers( "/driver-reports", "/drivers/**").authenticated()
+                .antMatchers("/", "/createDriver", "/servers/create-server").permitAll()
+                .antMatchers( "/drivers", "/vehicles","/vehicles/vehicle-reports", "/driver-work-schedule", "/drivers/driver-reports").authenticated()
                 .and().httpBasic()
                 .authenticationEntryPoint(authenticationEntryPoint);
     }
