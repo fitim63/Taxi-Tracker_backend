@@ -26,7 +26,7 @@ public class ServerController {
         // Login default by spring security /login endpoint
     }
 
-    @GetMapping("/servers")
+    @GetMapping("/servers/getAll")
     public ResponseEntity<List<Server>> listAllUsers() {
 
         logger.info("List all servers");
@@ -48,7 +48,7 @@ public class ServerController {
         return new ResponseEntity<>(server, HttpStatus.OK);
     }
 
-    @PostMapping("/createServer")
+    @PostMapping("/servers/create-server")
     public ResponseEntity<?> createUser(@RequestBody Server server, UriComponentsBuilder uriCBuilder) {
         logger.info("Creating Server: {}", server);
 
@@ -64,7 +64,7 @@ public class ServerController {
         return new ResponseEntity<>(headers, HttpStatus.CREATED);
     }
 
-    @PutMapping("/server/{id}")
+    @PutMapping("/servers/{id}")
     public ResponseEntity<?> updateUser(@PathVariable("id") int id, @RequestBody Server server) {
         logger.info("Updating Server with id {}", id);
         Server currentServer = serverService.getById(id);
@@ -83,7 +83,7 @@ public class ServerController {
         return new ResponseEntity<>(currentServer, HttpStatus.OK);
     }
 
-    @DeleteMapping("/server/{id}")
+    @DeleteMapping("/servers/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable("id") int id) {
         logger.info("Fetching & Deleting Server with id {}", id);
         Server server = serverService.getById(id);
