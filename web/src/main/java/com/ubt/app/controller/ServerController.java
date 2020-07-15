@@ -1,5 +1,6 @@
 package com.ubt.app.controller;
 import com.ubt.app.util.Utils;
+import com.ubt.model.Driver;
 import com.ubt.model.Server;
 import com.ubt.service.ServerService;
 import org.slf4j.Logger;
@@ -30,6 +31,18 @@ public class ServerController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(servers, HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/getByUsername/", method = RequestMethod.GET)
+    @ResponseBody
+    public ResponseEntity<Server> getDriverByUsername(@RequestParam ("username") String username) {
+        logger.info("Get driver with username: "+username);
+        // service + repository help web to provide data from database
+        Server driver = serverService.getByUsername(username);
+        if (driver == null) {
+            logger.error("driver with id:"+username+" doesnt exist.");
+        }
+        return new ResponseEntity<Server>(driver, HttpStatus.OK);
     }
 
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
