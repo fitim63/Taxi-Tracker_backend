@@ -48,7 +48,7 @@ public class OpenRequestsController {
     }
 
 
-    @RequestMapping(value = "/create-server", method = RequestMethod.POST)
+    @RequestMapping(value = "/createServer", method = RequestMethod.POST)
     public ResponseEntity<?> createUser(@RequestBody Server server, UriComponentsBuilder uriCBuilder) {
         logger.info("Creating Server: {}", server);
 
