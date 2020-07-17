@@ -14,13 +14,17 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Optional;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @RunWith(SpringRunner.class)
@@ -57,25 +61,4 @@ class ServerServiceTest {
 
         Assert.assertNull(s);
     }
-
-//    @Test
-//    void getByIdandServerExists(){
-//        Server server = new Server();
-//        server.setId(1);
-//        server.setUsername("test monitoruesi");
-//        server.setFirstName("monitoruesi lastname");
-//        server.setLastName("test lastname monitoruesi");
-//        server.setPassword("password");
-//        server.setEmail("test@gmail.com");
-//
-//        Mockito.when(mockServerRepository.findById(1)).thenReturn(server);
-//
-//        Server server1 = serverService.getById(1);
-//
-//        Assert.assertNotNull(server1);
-//        Mockito.verify(mockServerRepository, Mockito.times(1))
-//                .findById(ArgumentMatchers.any());
-//        Mockito.verifyNoInteractions(mockServerRepository);
-//
-//    }
 }

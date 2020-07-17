@@ -23,12 +23,15 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.util.NestedServletException;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
@@ -49,9 +52,7 @@ import java.util.Arrays;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = App.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@Import(ServerController.class)
 @TestConfiguration
-@ComponentScan(basePackages = "com.ubt")
 public class ServerControllerIntegrationTest {
 
     private static MediaType CONTENT_TYPE =
@@ -77,7 +78,7 @@ public class ServerControllerIntegrationTest {
     }
 
     @Before
-    public void init(){
+    public void init() {
         mockMvc = webAppContextSetup(webApplicationContext).build();
         Server server1 = new Server();
         server1.setId(1);
@@ -109,12 +110,35 @@ public class ServerControllerIntegrationTest {
     }
 
 
-
     @Test
     public void getNonExistingEndpoint() throws Exception {
         mockMvc.perform(get("/nonexistingendpoint")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    public void getAllServersAPI() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/servers")
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.*.id").exists());
+    }
+//
+//    @Test
+//    public void getServersByIdAPI() throws Exception {
+//
+//        Server server = new Server();
+//        server.setUsername("sike");
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .get("/servers/{id}", 1)
+//                .accept(MediaType.APPLICATION_JSON))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(MockMvcResultMatchers.jsonPath("$.*.id").value(1));
+//    }
+
 
 }
