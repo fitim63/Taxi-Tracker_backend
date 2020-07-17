@@ -1,0 +1,30 @@
+Index: web/src/main/java/com/ubt/app/security/AppSecurityConfig.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.ubt.app.security;\r\n\r\nimport com.ubt.app.jwt.JwtTokenVerifier;\r\nimport com.ubt.app.jwt.JwtUsernameAndPasswordAuthAuthenticationFilter;\r\nimport org.springframework.beans.factory.annotation.Autowired;\r\nimport org.springframework.beans.factory.annotation.Qualifier;\r\nimport org.springframework.context.annotation.Bean;\r\nimport org.springframework.context.annotation.Configuration;\r\nimport org.springframework.security.authentication.AuthenticationProvider;\r\nimport org.springframework.security.authentication.dao.DaoAuthenticationProvider;\r\nimport org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;\r\nimport org.springframework.security.config.annotation.web.builders.HttpSecurity;\r\nimport org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;\r\nimport org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;\r\nimport org.springframework.security.config.http.SessionCreationPolicy;\r\nimport org.springframework.security.core.userdetails.UserDetailsService;\r\nimport org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;\r\nimport org.springframework.security.crypto.password.PasswordEncoder;\r\n\r\n@Configuration\r\n@EnableWebSecurity\r\npublic class AppSecurityConfig extends WebSecurityConfigurerAdapter {\r\n\r\n    @Qualifier(\"myUserDetailsService\")\r\n    @Autowired\r\n    private UserDetailsService userDetailsService;\r\n\r\n    @Autowired\r\n    private AuthenticationEntryPoint authenticationEntryPoint;\r\n\r\n    @Bean\r\n    public PasswordEncoder passwordEncoder() {\r\n        return new BCryptPasswordEncoder(10);\r\n    }\r\n\r\n    @Bean\r\n    public AuthenticationProvider authenticationProvider() {\r\n        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();\r\n        provider.setUserDetailsService(userDetailsService);\r\n        provider.setPasswordEncoder(passwordEncoder());\r\n        return provider;\r\n    }\r\n\r\n    @Override\r\n    protected void configure(AuthenticationManagerBuilder auth) {\r\n        auth.authenticationProvider(authenticationProvider());\r\n    }\r\n\r\n    @Override\r\n    protected void configure(HttpSecurity http) throws Exception {\r\n        http\r\n                .csrf().disable()\r\n                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)\r\n                .and() // check if user exist in database and create a token for specific user\r\n                .addFilter(new JwtUsernameAndPasswordAuthAuthenticationFilter(authenticationManager()))\r\n                .addFilterAfter(new JwtTokenVerifier(), JwtUsernameAndPasswordAuthAuthenticationFilter.class)\r\n                .authorizeRequests()\r\n                .antMatchers(\"/\", \"/createServer\", \"/createDriver\").permitAll()\r\n                .antMatchers( \"/driver-reports\", \"/drivers/**\").authenticated()\r\n                .and().httpBasic()\r\n                .authenticationEntryPoint(authenticationEntryPoint);\r\n    }\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web/src/main/java/com/ubt/app/security/AppSecurityConfig.java	(revision e8b7e20a7762c2d8ac24001d85c7e69e051d5f9d)
++++ web/src/main/java/com/ubt/app/security/AppSecurityConfig.java	(date 1594750940602)
+@@ -55,7 +55,7 @@
+                 .addFilter(new JwtUsernameAndPasswordAuthAuthenticationFilter(authenticationManager()))
+                 .addFilterAfter(new JwtTokenVerifier(), JwtUsernameAndPasswordAuthAuthenticationFilter.class)
+                 .authorizeRequests()
+-                .antMatchers("/", "/createServer", "/createDriver").permitAll()
++                .antMatchers("/", "/createServer", "/createDriver", "/vehicles").permitAll()
+                 .antMatchers( "/driver-reports", "/drivers/**").authenticated()
+                 .and().httpBasic()
+                 .authenticationEntryPoint(authenticationEntryPoint);
+Index: web/src/main/java/com/ubt/app/controller/VehicleController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- web/src/main/java/com/ubt/app/controller/VehicleController.java	(date 1594753647028)
++++ web/src/main/java/com/ubt/app/controller/VehicleController.java	(date 1594753647028)
+@@ -0,0 +1,4 @@
++package com.ubt.app.controller;
++
++public class VehicleController {
++}

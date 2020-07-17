@@ -1,17 +1,18 @@
 package com.ubt.app.controller;
 import com.ubt.app.util.Utils;
 import com.ubt.model.Server;
-import com.ubt.service.ServerService;
+import com.ubt.unitTest.ServerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @RestController
-@RequestMapping("/servers")
 public class ServerController {
 
     public static final Logger logger = LoggerFactory.getLogger(ServerController.class);
@@ -19,7 +20,13 @@ public class ServerController {
     @Autowired
     private ServerService serverService;
 
-    @RequestMapping(value="/getAll", method = RequestMethod.GET)
+    @PostMapping("/login")
+    @CrossOrigin("http://localhost:3000/login")
+    public void login() {
+        // Login default by spring security /login endpoint
+    }
+
+    @GetMapping("/servers")
     public ResponseEntity<List<Server>> listAllUsers() {
 
         logger.info("List all servers");
@@ -30,30 +37,8 @@ public class ServerController {
         return new ResponseEntity<>(servers, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/getByUsername/", method = RequestMethod.GET)
+    @GetMapping("/servers/{id}")
     @ResponseBody
-    public ResponseEntity<Server> getDriverByUsername(@RequestParam ("username") String username) {
-        logger.info("Get driver with username: "+username);
-        // service + repository help web to provide data from database
-        Server driver = serverService.getByUsername(username);
-        if (driver == null) {
-            logger.error("driver with id:"+username+" doesnt exist.");
-        }
-        return new ResponseEntity<Server>(driver, HttpStatus.OK);
-    }
-/*    @RequestMapping(value="/{username}", method = RequestMethod.PUT)
-    public ResponseEntity<Server> getUser(@PathVariable ("id") int id) {
-        logger.info("Get server with id: "+id);
-        // service + repository help web to provide data from database
-        Server server = serverService.getById(id);
-        if (server == null) {
-            logger.error("Server with id:"+id+" doesnt exist.");
-        }
-        return new ResponseEntity<>(server, HttpStatus.OK);
-    }*/
-
-
-    @RequestMapping(value="/{id}", method = RequestMethod.GET)
     public ResponseEntity<Server> getUser(@PathVariable ("id") int id) {
         logger.info("Get server with id: "+id);
         // service + repository help web to provide data from database
@@ -64,7 +49,23 @@ public class ServerController {
         return new ResponseEntity<>(server, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/{id}", method = RequestMethod.PUT)
+    @PostMapping("/createServer")
+    public ResponseEntity<?> createUser(@RequestBody Server server, UriComponentsBuilder uriCBuilder) {
+        logger.info("Creating Server: {}", server);
+
+        if (serverService.getById(server.getId()) != null) {
+            logger.error("Server with id:"+ server.getId()+" already exist.");
+            return new ResponseEntity<>(new Utils
+                    ("Unable to create server with id:" + server.getId() + " exist."),
+                    HttpStatus.CONFLICT);
+        }
+        serverService.save(server);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(uriCBuilder.path("/api/server/{id}").buildAndExpand(server.getId()).toUri());
+        return new ResponseEntity<>(headers, HttpStatus.CREATED);
+    }
+
+    @PutMapping("/server/{id}")
     public ResponseEntity<?> updateUser(@PathVariable("id") int id, @RequestBody Server server) {
         logger.info("Updating Server with id {}", id);
         Server currentServer = serverService.getById(id);
@@ -83,7 +84,7 @@ public class ServerController {
         return new ResponseEntity<>(currentServer, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping("/server/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable("id") int id) {
         logger.info("Fetching & Deleting Server with id {}", id);
         Server server = serverService.getById(id);
