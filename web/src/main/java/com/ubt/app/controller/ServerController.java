@@ -1,7 +1,7 @@
 package com.ubt.app.controller;
 import com.ubt.app.util.Utils;
 import com.ubt.model.Server;
-import com.ubt.service.ServerService;
+import com.ubt.unitTest.ServerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +38,7 @@ public class ServerController {
     }
 
     @GetMapping("/servers/{id}")
+    @ResponseBody
     public ResponseEntity<Server> getUser(@PathVariable ("id") int id) {
         logger.info("Get server with id: "+id);
         // service + repository help web to provide data from database

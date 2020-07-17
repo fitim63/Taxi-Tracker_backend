@@ -4,7 +4,7 @@ import com.ubt.app.util.Utils;
 import com.ubt.model.Driver;
 import com.ubt.model.DriverReport;
 import com.ubt.model.VehicleReport;
-import com.ubt.service.DriverService;
+import com.ubt.unitTest.DriverService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
