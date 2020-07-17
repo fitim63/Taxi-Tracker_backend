@@ -1,16 +1,13 @@
 package com.ubt.app.controller;
 import com.ubt.app.util.Utils;
-import com.ubt.model.Driver;
 import com.ubt.model.Server;
 import com.ubt.service.ServerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @RestController
@@ -44,6 +41,17 @@ public class ServerController {
         }
         return new ResponseEntity<Server>(driver, HttpStatus.OK);
     }
+/*    @RequestMapping(value="/{username}", method = RequestMethod.PUT)
+    public ResponseEntity<Server> getUser(@PathVariable ("id") int id) {
+        logger.info("Get server with id: "+id);
+        // service + repository help web to provide data from database
+        Server server = serverService.getById(id);
+        if (server == null) {
+            logger.error("Server with id:"+id+" doesnt exist.");
+        }
+        return new ResponseEntity<>(server, HttpStatus.OK);
+    }*/
+
 
     @RequestMapping(value="/{id}", method = RequestMethod.GET)
     public ResponseEntity<Server> getUser(@PathVariable ("id") int id) {
