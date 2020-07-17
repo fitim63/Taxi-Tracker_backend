@@ -4,9 +4,7 @@ import com.ubt.app.util.Utils;
 import com.ubt.model.Server;
 import com.ubt.model.Vehicle;
 import com.ubt.model.VehicleReport;
-import com.ubt.service.DriverService;
 import com.ubt.service.VehicleReportService;
-import com.ubt.service.VehicleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +23,7 @@ public class VehicleController {
 
     public static final Logger logger = LoggerFactory.getLogger(WorkScheduleController.class);
     @Autowired
-    private VehicleService vehicleService;
+    private com.ubt.service.VehicleService vehicleService;
 
     @Autowired
     private VehicleReportService vehicleReportService;

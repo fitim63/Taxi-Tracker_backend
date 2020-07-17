@@ -1,7 +1,7 @@
 package com.ubt.app.controller;
 import com.ubt.app.util.Utils;
 import com.ubt.model.Server;
-import com.ubt.unitTest.ServerService;
+import com.ubt.service.ServerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

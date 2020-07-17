@@ -1,4 +1,4 @@
-package com.ubt.unitTest;
+package com.ubt.service;
 
 import com.ubt.model.Server;
 import com.ubt.repository.ServerRepository;

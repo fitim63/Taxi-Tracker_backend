@@ -1,4 +1,4 @@
-package com.ubt.unitTest;
+package com.ubt.service;
 
 import com.ubt.model.*;
 import com.ubt.model.Driver;

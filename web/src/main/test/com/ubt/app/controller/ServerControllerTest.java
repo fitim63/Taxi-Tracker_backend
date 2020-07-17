@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubt.app.App;
 import com.ubt.model.Server;
 import com.ubt.repository.ServerRepository;
-import com.ubt.unitTest.ServerService;
+import com.ubt.service.ServerService;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;

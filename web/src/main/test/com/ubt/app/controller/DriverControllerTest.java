@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ubt.app.App;
 import com.ubt.model.Driver;
 import com.ubt.repository.DriverRepository;
-import com.ubt.unitTest.DriverService;
+import com.ubt.service.DriverService;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import org.junit.Assert;
