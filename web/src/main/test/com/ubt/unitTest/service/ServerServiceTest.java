@@ -48,10 +48,8 @@ class ServerServiceTest {
     void getByUsernameHttpStatus400() throws Exception {
     ServerService mock = Mockito.mock(ServerService.class);
     when(mock.getByUsername("monitor2")).thenThrow(new ArrayIndexOutOfBoundsException("asd"));
-
     mockMvc.perform(get("/servers/username"))
             .andExpect(status().is4xxClientError());
-
     }
 
     @Test

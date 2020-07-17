@@ -122,7 +122,6 @@ class DriverControllerTest extends Mockito {
 
     @Test
     void createUser() {
-
                 Driver driver = new Driver();
         driver.setId(2);
         driver.setFirstName("driver lamont");
@@ -131,19 +130,15 @@ class DriverControllerTest extends Mockito {
         driver.setDateOfBirth(1995);
         driver.setAge(25);
         driver.setPassword("passswordd233");
-
         driverService.save(driver);
     }
 
     @Test
     void deleteUser() {
         Integer id = 4;
-
         boolean existedBeforeDelete = driverRepository.findById(id).isPresent();
         driverRepository.deleteById(id);
-
         boolean doesntExistAfterDelete = driverRepository.findById(id).isPresent();
-
         Assert.assertTrue("driver existed before delete: ", existedBeforeDelete);
         Assert.assertFalse("driver doesnt exist after delete: ", doesntExistAfterDelete);
     }

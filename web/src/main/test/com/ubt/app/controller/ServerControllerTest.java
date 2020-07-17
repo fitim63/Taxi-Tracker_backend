@@ -33,7 +33,6 @@ import java.net.URISyntaxException;
 @AutoConfigureMockMvc
 class ServerControllerTest {
 
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -42,35 +41,6 @@ class ServerControllerTest {
 
     @Autowired
     private ServerRepository serverRepository;
-
-//    @Test
-//    void add_UsernameAndFirstname_ShouldReturnValidationErrors() throws Exception {
-//
-//        String username = createStringWithLength(603);
-//        String firstname = createStringWithLength(602);
-//
-//        Server server = new Server();
-//        server.setId(1);
-//        server.setUsername(username);
-//        server.setFirstName(firstname);
-//        server.setLastName("test lastname monitoruesi");
-//        server.setPassword("password");
-//        server.setEmail("test@gmail.com");
-//
-//
-//        mockMvc.perform(post("/createServer").contentType(MediaType.APPLICATION_JSON)
-//                .content(convertObjectToJsonBytes(server)))
-//                .andExpect(status().isBadRequest())
-//                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-//                .andExpect(jsonPath("$.fieldErrors", hasSize(2)))
-//                .andExpect(jsonPath("$.fieldErrors[*].path", containsInAnyOrder("username", "firstname")))
-//                .andExpect(jsonPath("$.fieldErrors[*].message", containsInAnyOrder(
-//                        "The maximum length of the description is 500 characters.",
-//                        "The maximum length of the title is 100 characters."
-//                )));
-//    }
-
-
     @Test
     void listAllUsers() {
         RestTemplate restTemplate = new RestTemplate();
@@ -88,7 +58,6 @@ class ServerControllerTest {
 
     @Test
     void getUser() throws Exception {
-
         Server mockServer = new Server();
         mockServer.setId(1);
         mockServer.setUsername("test monitoruesi");
@@ -96,9 +65,7 @@ class ServerControllerTest {
         mockServer.setLastName("test lastname monitoruesi");
         mockServer.setPassword("password");
         mockServer.setEmail("test@gmail.com");
-
         Mockito.when(serverService.getById(Mockito.anyInt())).thenReturn(mockServer);
-
         String URI = "http://localhost:8080/servers/1";
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get(URI)
@@ -120,23 +87,8 @@ class ServerControllerTest {
         server.setLastName("test lastname monitoruesi");
         server.setPassword("password");
         server.setEmail("test@gmail.com");
-
         serverService.save(server);
     }
-//
-//    @Test
-//    void updateUser() {
-//        String username = "monitor2";
-//        Server server = new Server();
-//
-//        server.setId(2);
-//        serverRepository.save(server);
-//
-//        Server updatedServer = serverRepository.findByUsername(username);
-//
-//        Assert.assertEquals("updated successful",updatedServer.getUsername(), username);
-//
-//    }
 
     @Test
     void deleteUser() {
